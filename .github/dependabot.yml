@@ -9,8 +9,8 @@ updates:
     # Specify labels for npm pull requests
     labels:
       - "dependencies"
-   open-pull-requests-limit: 10
-   reviewers:
+    open-pull-requests-limit: 10
+    reviewers:
       - "anttibull"
       - "sashalavrus"
       - "parovozik787"
