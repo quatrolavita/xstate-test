@@ -1,0 +1,135 @@
+name: CI
+
+on:
+    pull_request:
+
+jobs:
+    install:
+        name: Install
+        runs-on: ubuntu-18.04
+        continue-on-error: false
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  token: ${{ secrets.GIT_TOKEN || github.token  }}
+
+            - name: Get yarn cache directory path
+              id: yarn-cache-dir-path
+              run: echo "::set-output name=dir::$(yarn cache dir)"
+
+            - name: Cache yarn files
+              uses: actions/cache@v2
+              id: yarn-cache-files
+              with:
+                  path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+                  key: ${{ runner.os }}-yarn-files-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: ${{ runner.os }}-yarn-files-
+
+            - name: Setup yarn access
+              run: |
+                  git config --global url."https://${{ secrets.GIT_TOKEN || github.token  }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+                  sed -i "s|Builder/|git+https://github.com/Money-Flow/|" package.json
+
+            - name: Install JS dependencies
+              run: yarn install
+
+            - name: Pack artifact
+              run: tar czf /tmp/artifact.tar.gz .
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: frontend-artifact
+                  path: /tmp/artifact.tar.gz
+                  retention-days: 1
+
+    test:
+      name: Test
+      needs: [install]
+      runs-on: ubuntu-latest
+      steps:
+          - name: Download artifact
+            uses: actions/download-artifact@v2
+            with:
+                name: frontend-artifact
+
+          - name: Unpack artifact
+            run: tar xf artifact.tar.gz
+
+          - name: Run tests
+            run: yarn test
+
+    eslint:
+      name: Eslint
+      needs: [install]
+      runs-on: ubuntu-18.04
+      continue-on-error: false
+      steps:
+          - name: Download artifact
+            uses: actions/download-artifact@v2
+            with:
+                name: frontend-artifact
+
+          - name: Unpack artifact
+            run: tar xf artifact.tar.gz
+
+          - name: Setup problem matcher for eslint
+            run: echo "::add-matcher::.github/configs/eslint.json"
+
+          - name: Run eslint
+            run: yarn eslint
+
+    stylelint:
+      name: Stylelint
+      needs: [install]
+      runs-on: ubuntu-18.04
+      continue-on-error: false
+      steps:
+          - name: Download artifact
+            uses: actions/download-artifact@v2
+            with:
+                name: frontend-artifact
+
+          - name: Unpack artifact
+            run: tar xf artifact.tar.gz
+
+          - name: Run stylelint
+            run: yarn stylelint
+
+    typescript:
+        name: Typescript
+        needs: [install]
+        runs-on: ubuntu-18.04
+        continue-on-error: false
+        steps:
+            - name: Download artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: frontend-artifact
+
+            - name: Unpack artifact
+              run: tar xf artifact.tar.gz
+
+            - name: Run typescript compile
+              run: yarn tsc --noEmit
+
+    build:
+        name: Build
+        needs: [install]
+        runs-on: ubuntu-18.04
+        continue-on-error: false
+        steps:
+            - name: Download artifact
+              uses: actions/download-artifact@v2
+              with:
+                  name: frontend-artifact
+
+            - name: Unpack artifact
+              run: tar xf artifact.tar.gz
+
+            - name: Setup problem matcher for eslint
+              run: echo "::add-matcher::.github/configs/eslint.json"
+
+            - name: Build TS application
+              run: yarn build
