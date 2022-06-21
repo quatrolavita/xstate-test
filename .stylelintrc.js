@@ -7,11 +7,13 @@ module.exports = {
   plugins: ["stylelint-order", "stylelint-scss"],
   rules: {
     "declaration-empty-line-before": null,
+    "order/properties-order": [],
     "plugin/rational-order": [
       true,
       {
         "border-in-box-model": false,
         "empty-line-between-groups": true,
+        "severity": "error"
       },
     ],
   },
