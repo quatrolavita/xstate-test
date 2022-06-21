@@ -1,0 +1,22 @@
+# Specify labels for pull requests
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Specify labels for npm pull requests
+    labels:
+      - "github-actions"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    allow:
+     - dependency-type: "all"
+    labels:
+      - "npm dependencies"
+    open-pull-requests-limit: 10
