@@ -31,6 +31,11 @@ module.exports = {
             group: "external",
             position: "before",
           },
+          {
+            pattern: "styles",
+            group: "internal",
+            position: "after",
+          },
         ],
         pathGroupsExcludedImportTypes: ["react"],
         "newlines-between": "always",
