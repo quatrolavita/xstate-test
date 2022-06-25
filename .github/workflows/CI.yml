@@ -63,7 +63,7 @@ jobs:
     eslint:
       name: Eslint
       needs: [install]
-      runs-on: ubuntu-18.04
+      runs-on: ubuntu-latest
       continue-on-error: false
       steps:
           - name: Download artifact
@@ -83,7 +83,7 @@ jobs:
     stylelint:
       name: Stylelint
       needs: [install]
-      runs-on: ubuntu-18.04
+      runs-on: ubuntu-latest
       continue-on-error: false
       steps:
           - name: Download artifact
@@ -100,7 +100,7 @@ jobs:
     typescript:
         name: Typescript
         needs: [install]
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         continue-on-error: false
         steps:
             - name: Download artifact
@@ -117,7 +117,7 @@ jobs:
     build:
         name: Build
         needs: [install]
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         continue-on-error: false
         steps:
             - name: Download artifact
