@@ -1,11 +1,11 @@
 {
-  "scss.validate": false,
-  "css.validate": false,
-  "less.validate": false,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave":  false,
-  "editor.formatOnPaste": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.stylelint": false
-  }
+    "eslint.workingDirectories": [
+        "src",
+        "tests"
+      ],
+      "css.validate": false,
+      "less.validate": false,
+      "scss.validate": false,
+      "stylelint.validate": ["css", "scss"],
+      "eslint.validate": ["typescript, typescriptreact"],
 }
