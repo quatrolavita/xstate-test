@@ -3,8 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 // components
-import Steper from 'feature/Steper/layout/Steper/Steper.component'
-import Container from 'shared/components/Container/Container.component'
+import DefaultSteperPage from 'pages/DefaultSteperPage/DefaultSteperPage'
 
 // eslint-disable-next-line import/extensions
 import './index.css'
@@ -12,8 +11,6 @@ import './index.css'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
     <React.StrictMode>
-        <Container>
-            <Steper />
-        </Container>
+        <DefaultSteperPage />
     </React.StrictMode>
 )
