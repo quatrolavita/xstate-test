@@ -2,6 +2,7 @@ import React from 'react'
 
 // components
 import Steper from 'feature/Steper/layout/Steper/Steper.component'
+import { useSteper } from 'feature/Steper/operations/useSteper'
 import Container from 'shared/components/Container/Container.component'
 
 import Step1 from './Steps/Step1'
@@ -11,7 +12,8 @@ import Step4 from './Steps/Step4'
 import Step5 from './Steps/Step5'
 
 const DefaultSteperPage = () => {
-    const [currentPage, setPage] = React.useState<number>(0)
+    const { handleNextStepClick, handlePrevStepClick, currentStep } =
+        useSteper(5)
 
     const renderPage = (index: number) => {
         switch (index) {
@@ -30,8 +32,12 @@ const DefaultSteperPage = () => {
 
     return (
         <Container>
-            {renderPage(currentPage)}
-            <Steper handleChangeStep={setPage} />
+            {renderPage(currentStep)}
+            <Steper
+                handleNextStepClick={handleNextStepClick}
+                handlePrevStepClick={handlePrevStepClick}
+                currentStep={currentStep}
+            />
         </Container>
     )
 }

@@ -1,21 +1,21 @@
 import React, { FC } from 'react'
 
 // components
-import { Button, Box } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 // styles
 import styles from './Steper.module.css'
 
 type PropsType = {
     currentStep: number
-    handleNextStepClick: () => void
-    handlePrevStepClick: () => void
+    handleNextStepClick: any
+    handlePrevStepClick: any
 }
 
-const Steper: FC<PropsType> = ({
+const XStateSteper: FC<PropsType> = ({
+    handlePrevStepClick,
     handleNextStepClick,
     currentStep,
-    handlePrevStepClick,
 }) => (
     <div className={styles.steperContainer}>
         <div className={styles.steper}>
@@ -24,21 +24,15 @@ const Steper: FC<PropsType> = ({
                 style={{ width: `${(currentStep + 1) * 20}%` }}
             />
         </div>
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100',
-            }}
-        >
+        <div className={styles.buttonWrapper}>
             <Button variant="contained" onClick={handlePrevStepClick}>
                 Prev
             </Button>
             <Button variant="contained" onClick={handleNextStepClick}>
                 Next
             </Button>
-        </Box>
+        </div>
     </div>
 )
 
-export default Steper
+export default XStateSteper
